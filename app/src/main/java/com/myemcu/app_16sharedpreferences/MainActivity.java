@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         if (isAutoLogin) {
            this.setContentView(R.layout.activity_welcome);  // 显示欢迎界面
            userInfo = (TextView) findViewById(R.id.userInfo);
-           userInfo.setText("欢迎您"+userName+"，登陆成功"); 
+           userInfo.setText("欢迎您"+userName+"，登陆成功!");
         }
         else {
             loadActivity();
@@ -91,5 +93,27 @@ public class MainActivity extends AppCompatActivity {
         autoLg = (CheckBox) findViewById(R.id.autoLogin);
         name   = (EditText) findViewById(R.id.name);
         psd    = (EditText) findViewById(R.id.psd);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) { // 选单界面
+        getMenuInflater().inflate(R.menu.activity_main,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) { // 选项处理
+        switch (item.getItemId()) {
+            case R.id.menu_settings: loginEditor.putBoolean("isAutoLogin",false);
+                                     loginEditor.commit();
+                                     loadActivity();
+                                     break;
+
+            case R.id.exit: this.finish();
+                            break;
+
+            default:break;
+        }
+        return true;
     }
 }
